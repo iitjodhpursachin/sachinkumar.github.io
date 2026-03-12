@@ -1,124 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chhath Puja Digital Archive</title>
 
 <style>
+
 :root{
-  --bg:#f5f7fb;
-  --card:#ffffff;
-  --text:#111;
-  --accent:#2c7be5;
-}
-.dark{
-  --bg:#121212;
-  --card:#1e1e1e;
-  --text:#ffffff;
-  --accent:#f4a261;
+--bg:#f5f5f5;
+--card:#ffffff;
+--text:#111;
+--accent:#2c7be5;
 }
 
-*{box-sizing:border-box}
+/* THEMES */
+
+body.dark{
+--bg:#121212;
+--card:#1e1e1e;
+--text:#ffffff;
+--accent:#f4a261;
+}
+
+body.aqua{
+--bg:#e8fbff;
+--card:#ffffff;
+--text:#003c44;
+--accent:#00a6b2;
+}
+
+body.retro{
+--bg:#fff3d6;
+--card:#ffffff;
+--text:#4d2b00;
+--accent:#d47c00;
+}
+
+body.forest{
+--bg:#eef7f1;
+--card:#ffffff;
+--text:#1c3c2c;
+--accent:#2e8b57;
+}
 
 body{
-  margin:0;
-  font-family:Segoe UI, Arial, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  transition:0.4s;
+margin:0;
+font-family:Arial;
+background:var(--bg);
+color:var(--text);
+transition:0.4s;
 }
 
-/* Navbar */
+/* NAVBAR */
 
 nav{
-  position:sticky;
-  top:0;
-  background:var(--card);
-  padding:12px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-  z-index:1000;
+background:var(--card);
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-nav a{
-  margin-left:15px;
-  text-decoration:none;
-  color:var(--accent);
-  font-weight:600;
+nav h2{
+margin:0;
 }
 
-/* Hero section */
+select{
+padding:5px;
+}
+
+/* HERO */
 
 .hero{
-  height:320px;
-  background:linear-gradient(135deg,#2c7be5,#6c9ff7);
-  color:white;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+text-align:center;
+padding:60px 20px;
 }
 
 .hero h1{
-  margin:0;
-  font-size:40px;
+margin-bottom:10px;
 }
 
-.hero p{
-  max-width:700px;
-  opacity:0.95;
-}
-
-/* Cards */
+/* GRID */
 
 .container{
-  padding:40px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:25px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+padding:40px;
+max-width:1000px;
+margin:auto;
 }
 
 .card{
-  background:var(--card);
-  padding:25px;
-  border-radius:10px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.15);
-  transition:0.3s;
-  text-align:center;
+background:var(--card);
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.15);
+text-align:center;
+transition:0.3s;
 }
 
 .card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 12px 28px rgba(0,0,0,0.25);
+transform:translateY(-6px);
 }
 
 .card a{
-  text-decoration:none;
-  color:var(--accent);
-  font-weight:bold;
-  font-size:18px;
+text-decoration:none;
+color:var(--accent);
+font-size:18px;
+font-weight:bold;
 }
-
-/* Footer */
 
 footer{
-  background:var(--accent);
-  color:white;
-  text-align:center;
-  padding:15px;
-}
-
-/* Toggle button */
-
-.toggle{
-  cursor:pointer;
-  border:none;
-  padding:6px 12px;
-  border-radius:6px;
+text-align:center;
+padding:20px;
+background:var(--accent);
+color:white;
 }
 
 </style>
@@ -127,22 +124,29 @@ footer{
 <body>
 
 <nav>
-<div><strong>Chhath Archive</strong></div>
 
-<div>
-<a href="Map.html">Map</a>
-<a href="Researchpaper.html">Paper</a>
-<button class="toggle" onclick="toggleMode()">🌙</button>
-</div>
+<h2>Chhath Puja Archive</h2>
+
+<select onchange="changeTheme(this.value)">
+<option value="">Theme</option>
+<option value="dark">Dark</option>
+<option value="aqua">Aqua</option>
+<option value="retro">Retro</option>
+<option value="forest">Forest</option>
+</select>
+
 </nav>
 
-<section class="hero">
+<div class="hero">
+
 <h1>Chhath Puja Digital Archive</h1>
+
 <p>
-A digital humanities project documenting Chhath Puja folk songs,
+A Digital Humanities project documenting Chhath Puja songs,
 ritual practices, oral histories, photographs and cultural memory.
 </p>
-</section>
+
+</div>
 
 <div class="container">
 
@@ -163,7 +167,7 @@ ritual practices, oral histories, photographs and cultural memory.
 </div>
 
 <div class="card">
-<a href="transcribetranslate.html">📜 Transcriptions</a>
+<a href="transcribetranslate.html">📜 Transcription & Translation</a>
 </div>
 
 <div class="card">
@@ -177,13 +181,17 @@ ritual practices, oral histories, photographs and cultural memory.
 </div>
 
 <footer>
-Digital Humanities Project — Sachin Kumar
+
+Digital Humanities Project – Sachin Kumar
+
 </footer>
 
 <script>
 
-function toggleMode(){
-document.body.classList.toggle("dark");
+function changeTheme(theme){
+
+document.body.className=theme
+
 }
 
 </script>

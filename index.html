@@ -1,119 +1,153 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chhath Puja Digital Archive</title>
 
 <style>
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#111;
+  --accent:#2c7be5;
+}
+.dark{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#ffffff;
+  --accent:#f4a261;
+}
+
+*{box-sizing:border-box}
 
 body{
-font-family: Arial, sans-serif;
-margin:0;
-background:linear-gradient(135deg,#f5f7fa,#e4ecf7);
-transition:0.4s;
+  margin:0;
+  font-family:Segoe UI, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:0.4s;
 }
 
-/* Dark mode */
+/* Navbar */
 
-.dark{
-background:#121212;
-color:white;
+nav{
+  position:sticky;
+  top:0;
+  background:var(--card);
+  padding:12px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  z-index:1000;
 }
 
-/* Header */
-
-header{
-padding:30px;
-text-align:center;
-background:#2c7be5;
-color:white;
+nav a{
+  margin-left:15px;
+  text-decoration:none;
+  color:var(--accent);
+  font-weight:600;
 }
 
-header h1{
-margin:0;
-font-size:36px;
+/* Hero section */
+
+.hero{
+  height:320px;
+  background:linear-gradient(135deg,#2c7be5,#6c9ff7);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
 }
 
-/* Button */
-
-.toggle{
-position:absolute;
-top:20px;
-right:20px;
-padding:8px 14px;
-border:none;
-background:white;
-border-radius:6px;
-cursor:pointer;
+.hero h1{
+  margin:0;
+  font-size:40px;
 }
 
-/* Grid */
-
-.container{
-padding:40px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+.hero p{
+  max-width:700px;
+  opacity:0.95;
 }
 
 /* Cards */
 
+.container{
+  padding:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:25px;
+}
+
 .card{
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-transition:transform 0.3s, box-shadow 0.3s;
+  background:var(--card);
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.15);
+  transition:0.3s;
+  text-align:center;
 }
-
-.dark .card{
-background:#1e1e1e;
-}
-
-/* Hover animation */
 
 .card:hover{
-transform:translateY(-8px);
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  transform:translateY(-6px);
+  box-shadow:0 12px 28px rgba(0,0,0,0.25);
 }
 
 .card a{
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-color:#2c7be5;
+  text-decoration:none;
+  color:var(--accent);
+  font-weight:bold;
+  font-size:18px;
 }
 
 /* Footer */
 
 footer{
-text-align:center;
-padding:20px;
-background:#2c7be5;
-color:white;
+  background:var(--accent);
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+
+/* Toggle button */
+
+.toggle{
+  cursor:pointer;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header>
+<nav>
+<div><strong>Chhath Archive</strong></div>
 
+<div>
+<a href="Map.html">Map</a>
+<a href="Researchpaper.html">Paper</a>
+<button class="toggle" onclick="toggleMode()">🌙</button>
+</div>
+</nav>
+
+<section class="hero">
 <h1>Chhath Puja Digital Archive</h1>
-
-<p>Documenting Chhath Puja songs, rituals, interviews and cultural heritage</p>
-
-<button class="toggle" onclick="toggleMode()">🌙 Mode</button>
-
-</header>
-
+<p>
+A digital humanities project documenting Chhath Puja folk songs,
+ritual practices, oral histories, photographs and cultural memory.
+</p>
+</section>
 
 <div class="container">
 
 <div class="card">
-<a href="folk songs.html">🎵 Folk Song Audio Archive</a>
+<a href="folk songs.html">🎵 Folk Songs</a>
 </div>
 
 <div class="card">
@@ -125,11 +159,11 @@ color:white;
 </div>
 
 <div class="card">
-<a href="images.html">🖼️ Photo Archive</a>
+<a href="images.html">🖼 Photo Archive</a>
 </div>
 
 <div class="card">
-<a href="transcribetranslate.html">📜 Transcription & Hindi Translation</a>
+<a href="transcribetranslate.html">📜 Transcriptions</a>
 </div>
 
 <div class="card">
@@ -137,31 +171,22 @@ color:white;
 </div>
 
 <div class="card">
-<a href="Map.html">🗺️ Interactive Map</a>
+<a href="Map.html">🗺 Interactive Map</a>
 </div>
 
 </div>
-
 
 <footer>
-
-<p>Digital Humanities Project | Sachin Kumar</p>
-
+Digital Humanities Project — Sachin Kumar
 </footer>
-
 
 <script>
 
-/* Dark mode toggle */
-
 function toggleMode(){
-
 document.body.classList.toggle("dark");
-
 }
 
 </script>
-
 
 </body>
 </html>

@@ -1,0 +1,232 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Presentation Map — Sacred Geographies</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#0b0b0d; color:#fff; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+  #map { height:100vh; width:100%; }
+  .titlebar {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.55);
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+    z-index: 1000;
+  }
+  .controls {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+  .controls button {
+    background: #f4a261; color: #0b0b0d; border: none; padding: 10px 16px; margin: 0 6px;
+    border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 15px;
+  }
+  .controls button:active { transform: translateY(1px); }
+  .corner-controls {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 1000;
+    display:flex;
+    gap:8px;
+  }
+  .corner-controls button {
+    background: rgba(255,255,255,0.95); color:#0b0b0d; border:none; padding:8px 10px; border-radius:6px; font-weight:600; cursor:pointer;
+  }
+  .leaflet-popup-content { color:#111; }
+  /* small caption under title */
+  .subtitle {
+    font-size:13px; font-weight:400; opacity:0.85; margin-top:4px;
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="titlebar" id="titlebar">Welcome — Sacred Geographies of the Epics
+  <div class="subtitle" id="subtitle">Use <strong>Next ➡️</strong> to step through the map: World → India → Bihar → Sites</div>
+</div>
+
+<div class="corner-controls" id="corner">
+  <button id="soundBtn">🔔 Play Sound</button>
+  <button id="fullscreenBtn">⤢ Fullscreen</button>
+</div>
+
+<div class="controls">
+  <button id="nextBtn">Next ➡️</button>
+  <button id="restartBtn">🔁 Restart</button>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Initialize map
+var map = L.map('map', { zoomControl: true, attributionControl: false }).setView([20.5937,78.9629], 3);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18
+}).addTo(map);
+
+// Scene definitions (ordered)
+var scenes = [
+  {
+    id: 'world',
+    center: [20.5937,78.9629],
+    zoom: 3,
+    title: '🌍 Sacred Geographies of the Epics',
+    subtitle: 'A global view — locating cultures, rivers and routes of memory.'
+  },
+  {
+    id: 'india',
+    center: [22.5,79.0],
+    zoom: 5,
+    title: '🇮🇳 India — Land of Myths and Devotion',
+    subtitle: 'From Himalayan peaks to southern coasts: epic landscapes.'
+  },
+  {
+    id: 'bihar',
+    center: [25.1,85.3],
+    zoom: 7,
+    title: '🟤 Bihar — Heart of Chhath Tradition',
+    subtitle: 'Rivers, ghats and communal rituals central to Chhath.'
+  },
+  {
+    id: 'karna',
+    center: [25.2421,87.0144],
+    zoom: 12,
+    title: '☀️ Karna’s Ang — Worship of the Sun',
+    subtitle: 'Ang (Anngraj) around Bhagalpur/Munger: solar devotion and epic memory.'
+  },
+  {
+    id: 'sita',
+    center: [27.2643,83.5712],
+    zoom: 12,
+    title: '🌸 Sita’s Mithila — Fertility and Faith',
+    subtitle: 'Sitamarhi & Mithila: Janak and Janaki — the cultural heart of Sita’s lore.'
+  },
+  {
+    id: 'draupadi',
+    center: [28.9845,79.0193],
+    zoom: 11,
+    title: '🔥 Draupadi’s Panchala — Strength and Grace',
+    subtitle: 'Panchala (approx.) — where Draupadi’s story begins, symbolising resilience.'
+  }
+];
+
+// Markers with content
+var markerData = {
+  'karna': {
+    coords: [25.2421,87.0144],
+    content: '<h3>☀️ Karna — Ang (Bhagalpur / Munger region)</h3>' +
+             '<p>Tradition links Karna with the kingdom of Ang, a cultural region around Bhagalpur and Munger in Bihar. Karna\'s devotion to Surya (the Sun) resonates with the solar elements of Chhath Puja.</p>'
+  },
+  'sita': {
+    coords: [27.2643, 83.5712],
+    content: '<h3>🌸 Sita — Mithila (Sitamarhi)</h3>' +
+             '<p>Sitamarhi and the Mithila region are traditionally associated with Sita (Janaki) and King Janak. These places are important for rituals, marriage lore and household cosmologies.</p>'
+  },
+  'draupadi': {
+    coords: [28.9845,79.0193],
+    content: '<h3>🔥 Draupadi — Panchala (approx.)</h3>' +
+             '<p>Panchala, in parts of present-day Uttar Pradesh, is associated with Draupadi. Her narrative evokes questions of honour, community and women\'s roles in epic memory.</p>'
+  }
+};
+
+// Add markers to map (but keep them modest)
+var markers = {};
+Object.keys(markerData).forEach(function(k){
+  var m = markerData[k];
+  markers[k] = L.circleMarker(m.coords, {radius:7, color:'#f4a261', fillColor:'#f4a261', fillOpacity:0.9}).addTo(map);
+  markers[k].bindPopup(m.content, {maxWidth:320});
+});
+
+// Scene control logic
+var current = 0;
+function showScene(idx){
+  if(idx < 0) idx = 0;
+  if(idx >= scenes.length) idx = scenes.length - 1;
+  current = idx;
+  var s = scenes[idx];
+  map.flyTo(s.center, s.zoom, {duration:1.6});
+  // Update title and subtitle
+  document.getElementById('titlebar').innerHTML = s.title + '<div class="subtitle">' + s.subtitle + '</div>';
+  // If scene has marker, open popup after flyTo
+  setTimeout(function(){
+    if(markers[s.id]){
+      markers[s.id].openPopup();
+    } else {
+      // close any popup
+      map.closePopup();
+    }
+  }, 1600);
+}
+
+// Initial scene
+showScene(0);
+
+// Button controls
+document.getElementById('nextBtn').addEventListener('click', function(){
+  var next = current + 1;
+  if(next >= scenes.length) next = 0; // loop back
+  showScene(next);
+});
+document.getElementById('restartBtn').addEventListener('click', function(){
+  showScene(0);
+});
+
+// Fullscreen
+document.getElementById('fullscreenBtn').addEventListener('click', function(){
+  var el = document.documentElement;
+  if (!document.fullscreenElement) {
+    el.requestFullscreen().catch(err => {});
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+// Background audio: gentle temple bells (controls via Play/Pause)
+var audio = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_6a6d5df5d4.mp3');
+audio.loop = true;
+audio.volume = 0.18;
+var playing = false;
+var soundBtn = document.getElementById('soundBtn');
+soundBtn.addEventListener('click', function(){
+  if(!playing){
+    audio.play().catch(function(e){ console.log('Audio play prevented:', e); });
+    soundBtn.textContent = '🔕 Pause Sound';
+    playing = true;
+  } else {
+    audio.pause();
+    soundBtn.textContent = '🔔 Play Sound';
+    playing = false;
+  }
+});
+
+// Accessibility: keyboard navigation (Right arrow = Next, Left arrow = Restart/Prev)
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowRight') { var n = current+1; if(n>=scenes.length) n=0; showScene(n); }
+  if(e.key === 'ArrowLeft') { var p = current-1; if(p<0) p = scenes.length-1; showScene(p); }
+});
+
+// Small instruction popup, non-blocking
+setTimeout(function(){
+  var popup = L.popup({closeButton:false, autoClose:true, closeOnClick:false, className:'intro-popup'})
+    .setLatLng([20.5937,78.9629])
+    .setContent('<b>Tip:</b> Use the <em>Next</em> button or Right Arrow → to progress. Press F11 or Fullscreen for presentation.')
+    .openOn(map);
+  setTimeout(function(){ map.closePopup(popup); }, 3800);
+}, 1000);
+
+</script>
+</body>
+</html>

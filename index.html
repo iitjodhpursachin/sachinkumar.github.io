@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta charset="UTF-8">
 <title>Chhath Puja Digital Archive</title>
 
 <style>
+
+/* DEFAULT THEME (AQUA) */
 
 :root{
 --bg:#e8fbff;
@@ -14,18 +18,18 @@
 
 /* THEMES */
 
-body.dark{
---bg:#121212;
---card:#1e1e1e;
---text:#ffffff;
---accent:#f4a261;
-}
-
 body.light{
 --bg:#f5f5f5;
 --card:#ffffff;
 --text:#111;
 --accent:#2c7be5;
+}
+
+body.dark{
+--bg:#121212;
+--card:#1e1e1e;
+--text:#ffffff;
+--accent:#f4a261;
 }
 
 body.retro{
@@ -77,6 +81,7 @@ body.sand{
 --accent:#c49b63;
 }
 
+
 /* BODY */
 
 body{
@@ -86,6 +91,7 @@ background:var(--bg);
 color:var(--text);
 transition:0.4s;
 }
+
 
 /* NAVBAR */
 
@@ -102,14 +108,20 @@ nav h2{
 margin:0;
 }
 
-/* HERO */
+
+/* HERO SECTION */
 
 .hero{
 text-align:center;
 padding:60px 20px;
 }
 
-/* GRID */
+.hero h1{
+margin-bottom:10px;
+}
+
+
+/* ARCHIVE GRID */
 
 .container{
 display:grid;
@@ -119,6 +131,9 @@ padding:40px;
 max-width:1000px;
 margin:auto;
 }
+
+
+/* CARD */
 
 .card{
 background:var(--card);
@@ -130,7 +145,7 @@ transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-6px);
+transform:translateY(-5px);
 }
 
 .card a{
@@ -139,6 +154,7 @@ color:var(--accent);
 font-size:18px;
 font-weight:bold;
 }
+
 
 /* FOOTER */
 
@@ -150,9 +166,11 @@ color:white;
 }
 
 </style>
+
 </head>
 
-<body class="aqua">
+
+<body>
 
 <nav>
 
@@ -160,7 +178,7 @@ color:white;
 
 <select onchange="changeTheme(this.value)">
 
-<option value="aqua">Aqua (Default)</option>
+<option value="">Aqua (Default)</option>
 <option value="light">Light</option>
 <option value="dark">Dark</option>
 <option value="retro">Retro</option>
@@ -175,48 +193,59 @@ color:white;
 
 </nav>
 
+
 <div class="hero">
 
 <h1>Chhath Puja Digital Archive</h1>
 
 <p>
-A Digital Humanities project documenting Chhath Puja songs,
+A Digital Humanities project documenting Chhath Puja folk songs,
 ritual practices, oral histories, photographs and cultural memory.
 </p>
 
 </div>
 
+
 <div class="container">
+
 
 <div class="card">
 <a href="folk songs.html">🎵 Folk Songs</a>
 </div>
 
+
 <div class="card">
 <a href="modern ritual_videos.html">🎥 Ritual Videos</a>
 </div>
+
 
 <div class="card">
 <a href="interviews.html">🎤 Interviews</a>
 </div>
 
+
 <div class="card">
 <a href="images.html">🖼 Photo Archive</a>
 </div>
+
 
 <div class="card">
 <a href="transcribetranslate.html">📜 Transcription & Translation</a>
 </div>
 
+
 <div class="card">
 <a href="Researchpaper.html">📄 Research Paper</a>
 </div>
+
 
 <div class="card">
 <a href="Map.html">🗺 Interactive Map</a>
 </div>
 
+
 </div>
+
 
 <footer>
 
@@ -224,13 +253,17 @@ Digital Humanities Project – Sachin Kumar
 
 </footer>
 
+
 <script>
 
 function changeTheme(theme){
+
 document.body.className = theme;
+
 }
 
 </script>
+
 
 </body>
 </html>

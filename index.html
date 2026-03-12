@@ -7,40 +7,90 @@
 <style>
 
 body{
-font-family: Arial;
-background:#f5f5f5;
-margin:40px;
+font-family: Arial, sans-serif;
+margin:0;
+background:linear-gradient(135deg,#f5f7fa,#e4ecf7);
+transition:0.4s;
+}
+
+/* Dark mode */
+
+.dark{
+background:#121212;
+color:white;
+}
+
+/* Header */
+
+header{
+padding:30px;
 text-align:center;
+background:#2c7be5;
+color:white;
 }
 
-h1{
-margin-bottom:10px;
+header h1{
+margin:0;
+font-size:36px;
 }
 
-p{
-max-width:800px;
-margin:auto;
+/* Button */
+
+.toggle{
+position:absolute;
+top:20px;
+right:20px;
+padding:8px 14px;
+border:none;
+background:white;
+border-radius:6px;
+cursor:pointer;
 }
+
+/* Grid */
 
 .container{
-margin-top:40px;
+padding:40px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+gap:25px;
 }
+
+/* Cards */
 
 .card{
 background:white;
-padding:20px;
-border-radius:8px;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
+padding:30px;
+border-radius:10px;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+transition:transform 0.3s, box-shadow 0.3s;
+}
+
+.dark .card{
+background:#1e1e1e;
+}
+
+/* Hover animation */
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 .card a{
 text-decoration:none;
 font-size:18px;
-color:#2c7be5;
 font-weight:bold;
+color:#2c7be5;
+}
+
+/* Footer */
+
+footer{
+text-align:center;
+padding:20px;
+background:#2c7be5;
+color:white;
 }
 
 </style>
@@ -49,13 +99,16 @@ font-weight:bold;
 
 <body>
 
+<header>
+
 <h1>Chhath Puja Digital Archive</h1>
 
-<p>
-This digital archive documents Chhath Puja folk songs, ritual practices,
-interviews, photographs, and textual materials collected as part of a
-Digital Humanities project.
-</p>
+<p>Documenting Chhath Puja songs, rituals, interviews and cultural heritage</p>
+
+<button class="toggle" onclick="toggleMode()">🌙 Mode</button>
+
+</header>
+
 
 <div class="container">
 
@@ -76,7 +129,7 @@ Digital Humanities project.
 </div>
 
 <div class="card">
-<a href="transcribetranslate.html">📜 Song Transcription & Hindi Translation</a>
+<a href="transcribetranslate.html">📜 Transcription & Hindi Translation</a>
 </div>
 
 <div class="card">
@@ -89,11 +142,26 @@ Digital Humanities project.
 
 </div>
 
-<br><br>
 
 <footer>
-<p>Digital Humanities Archive Project — Sachin Kumar</p>
+
+<p>Digital Humanities Project | Sachin Kumar</p>
+
 </footer>
+
+
+<script>
+
+/* Dark mode toggle */
+
+function toggleMode(){
+
+document.body.classList.toggle("dark");
+
+}
+
+</script>
+
 
 </body>
 </html>
